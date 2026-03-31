@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pulse — Where Ideas Ignite</title>
+
+    <!-- Meta Tags for SEO -->
+    <meta name="description"
+        content="Pulse: A premium social platform for thinkers, creators, and innovators. Join the conversation and ignite your ideas.">
+    <meta name="keywords" content="social media, networking, ideas, technology, design, community">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Cabinet+Grotesk:wght@300;400;500;700;800&family=Bricolage+Grotesque:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap"
+        rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- ═══════ AUTH SCREEN ═══════ -->
+    <div id="auth" class="screen on">
+        <div class="auth-orb orb1"></div>
+        <div class="auth-orb orb2"></div>
+        <div class="auth-wrap">
+            <div class="auth-brand">
+                <div style="display:flex;align-items:center;justify-content:center;gap:0.6rem;margin-bottom:0.4rem">
+                    <div class="brand-icon">
+                        <img src="logo.png" alt="Pulse Logo">
+                    </div>
+                    <span class="brand-mark">Pulse</span>
+                </div>
+                <div class="brand-tag">Where great minds collide</div>
+            </div>
+            <div class="auth-card">
+                <div class="auth-tabs-row">
+                    <div class="atab on" id="signin-tab" onclick="authTab('login')">Sign In</div>
+                    <div class="atab" id="signup-tab" onclick="authTab('signup')">Join Pulse</div>
+                </div>
+                <div id="auth-err" class="auth-err"></div>
+
+                <!-- LOGIN FORM -->
+                <div id="form-login" class="auth-form on">
+                    <div class="fld">
+                        <label for="li-u">Username or Email</label>
+                        <input id="li-u" type="text" autocomplete="username" placeholder="e.g. abhimanyu">
+                    </div>
+                    <div class="fld">
+                        <label for="li-p">Password</label>
+                        <input id="li-p" type="password" autocomplete="current-password" placeholder="••••••••">
+                    </div>
+                    <button class="btn-grad" id="login-submit" onclick="doLogin()">Sign In →</button>
+                    <div class="divider">or continue with</div>
+                    <button class="btn-gmail" onclick="gmailAuth()">
+                        <div class="gmail-g"></div> Continue with Google
+                    </button>
+                    <div class="cache-hint">🔒 Your details are remembered locally</div>
+                    <div style="margin-top:0.8rem;text-align:center;font-size:0.8rem;color:var(--t4)">Demo: any name ·
+                        password <strong style="color:var(--t2)">pulse2025</strong></div>
+                </div>
+
+                <!-- SIGNUP FORM -->
+                <div id="form-signup" class="auth-form">
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.8rem">
+                        <div class="fld"><label for="su-n">Full Name</label><input id="su-n" type="text"
+                                autocomplete="name" placeholder="Your Name"></div>
+                        <div class="fld"><label for="su-u">Username</label><input id="su-u" type="text"
+                                autocomplete="username" placeholder="@handle"></div>
+                    </div>
+                    <div class="fld"><label for="su-e">Email</label><input id="su-e" type="email" autocomplete="email"
+                            placeholder="you@pulse.app"></div>
+                    <div class="fld"><label for="su-p">Password</label><input id="su-p" type="password"
+                            autocomplete="new-password" placeholder="Min 6 chars"></div>
+                    <div class="fld"><label for="su-b">Bio (optional)</label><input id="su-b" type="text"
+                            placeholder="What moves you?"></div>
+                    <button class="btn-grad" id="signup-submit" onclick="doSignup()">Create My Account ✦</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════ APP MAIN ═══════ -->
+    <div id="app">
+        <!-- TOPBAR -->
+        <nav class="topbar">
+            <div class="tb-brand" onclick="goTab('feed')">
+                <div class="tb-brand-icon">
+                    <img src="logo.png" alt="Pulse Icon">
+                </div>
+                <span id="brand-text">Pulse</span>
+            </div>
+            <div class="search-wrap">
+                <span class="search-ico">🔍</span>
+                <input type="search" placeholder="Search ideas, people, topics…" id="srch-inp"
+                    oninput="liveSearch(this.value)" autocomplete="off">
+            </div>
+            <div class="tb-right">
+                <button class="ico-btn" id="notif-bell" onclick="goTab('notifications')" title="Notifications">
+                    🔔<div class="notif-dot" id="ndot"></div>
+                </button>
+                <button class="ico-btn" onclick="toggleDM()" title="Messages">💬</button>
+                <div class="av av-36 tb-avatar" id="nav-av" onclick="goTab('profile')"></div>
+            </div>
+        </nav>
+
+        <!-- LAYOUT -->
+        <div class="layout">
+            <!-- LEFT SIDEBAR -->
+            <aside class="lsidebar">
+                <nav class="nav-list">
+                    <div class="nav-item on" id="ni-feed" onclick="goTab('feed')"><span class="nav-icon">🏠</span>Home
+                    </div>
+                    <div class="nav-item" id="ni-explore" onclick="goTab('explore')"><span
+                            class="nav-icon">🔭</span>Explore</div>
+                    <div class="nav-item" id="ni-following" onclick="goTab('following')"><span
+                            class="nav-icon">👥</span>Following</div>
+                    <div class="nav-item" id="ni-notifications" onclick="goTab('notifications')"><span
+                            class="nav-icon">🔔</span>Notifications<span class="nav-badge" id="nb-count">0</span></div>
+                    <div class="nav-item" id="ni-bookmarks" onclick="goTab('bookmarks')"><span
+                            class="nav-icon">🔖</span>Bookmarks</div>
+                    <div class="nav-item" id="ni-profile" onclick="goTab('profile')"><span
+                            class="nav-icon">👤</span>Profile</div>
+                </nav>
+                <button class="compose-btn" id="new-post-btn" onclick="openPostModal()">✦ New Post</button>
+            </aside>
+
+            <!-- MAIN FEED/CONTENT -->
+            <main id="main">
+                <!-- FEED TAB -->
+                <div class="tab-p on" id="p-feed">
+                    <div class="composer-card">
+                        <div class="comp-row">
+                            <div class="av av-40" id="comp-av" onclick="openPostModal()" style="cursor:pointer"></div>
+                            <div class="comp-body">
+                                <textarea class="comp-textarea" id="comp-ta"
+                                    placeholder="What's pulsing through your mind? 💭" onclick="openPostModal()"
+                                    readonly></textarea>
+                            </div>
+                        </div>
+                        <div class="comp-bar">
+                            <button class="comp-tool" onclick="openPostModal()" title="Image">🖼️</button>
+                            <button class="comp-tool" onclick="openPollModal()" title="Poll">📊</button>
+                            <div style="margin-left:auto;display:flex;gap:0.5rem;align-items:center">
+                                <div id="quick-tag" class="chip-tag on">⬤ Tech</div>
+                            </div>
+                            <button class="btn-sm btn-sm-grad" onclick="openPostModal()">Post</button>
+                        </div>
+                    </div>
+                    <div class="feed-tabs">
+                        <div class="ftab on" onclick="feedTab(this,'all')">✨ For You</div>
+                        <div class="ftab" onclick="feedTab(this,'trending')">🔥 Trending</div>
+                        <div class="ftab" onclick="feedTab(this,'following')">👥 Following</div>
+                        <div class="ftab" onclick="feedTab(this,'latest')">🕐 Latest</div>
+                    </div>
+                    <div id="feed-list"></div>
+                </div>
+
+                <!-- EXPLORE TAB -->
+                <div class="tab-p" id="p-explore">
+                    <h1 class="page-hd">🔭 Explore</h1>
+                    <div class="explore-grid" id="exp-grid"></div>
+                    <h2 class="page-hd" style="font-size:1rem;color:var(--t2)">🌟 Popular Posts</h2>
+                    <div id="exp-posts"></div>
+                </div>
+
+                <!-- FOLLOWING TAB -->
+                <div class="tab-p" id="p-following">
+                    <h1 class="page-hd">👥 Your Circle</h1>
+                    <div id="fol-posts"></div>
+                </div>
+
+                <!-- NOTIFS TAB -->
+                <div class="tab-p" id="p-notifications">
+                    <h1 class="page-hd">🔔 Notifications</h1>
+                    <div id="notif-list"></div>
+                </div>
+
+                <!-- BOOKMARKS TAB -->
+                <div class="tab-p" id="p-bookmarks">
+                    <h1 class="page-hd">🔖 Saved Posts</h1>
+                    <div id="bk-list"></div>
+                </div>
+
+                <!-- PROFILE TAB -->
+                <div class="tab-p" id="p-profile">
+                    <div id="prof-content"></div>
+                </div>
+
+                <!-- SEARCH TAB -->
+                <div class="tab-p" id="p-search">
+                    <h1 class="page-hd">🔍 Search Results</h1>
+                    <div id="srch-list"></div>
+                </div>
+            </main>
+
+            <!-- RIGHT SIDEBAR -->
+            <aside class="rsidebar">
+                <div class="widget">
+                    <div class="widget-hd">🔥 Trending Now</div>
+                    <div id="trending-w"></div>
+                </div>
+                <div class="widget">
+                    <div class="widget-hd">✨ Who to Follow</div>
+                    <div id="wtf-w"></div>
+                </div>
+                <div class="widget quote-widget">
+                    <div class="widget-hd">💡 Daily Spark</div>
+                    <div class="quote-text" id="quote-w"></div>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <!-- BOTTOM NAV (MOBILE) -->
+    <nav class="bnav">
+        <div class="bnav-inner">
+            <button class="bn on" id="bn-feed" onclick="goTab('feed')"><span class="bn-ico">🏠</span>Home</button>
+            <button class="bn" id="bn-explore" onclick="goTab('explore')"><span class="bn-ico">🔭</span>Explore</button>
+            <button class="bn" onclick="openPostModal()"><span class="bn-ico"
+                    style="width:38px;height:38px;background:var(--grad);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto;color:#fff;">✦</span></button>
+            <button class="bn" id="bn-notifications" onclick="goTab('notifications')"><span
+                    class="bn-ico">🔔</span>Alerts</button>
+            <button class="bn" id="bn-profile" onclick="goTab('profile')"><span class="bn-ico">👤</span>Me</button>
+        </div>
+    </nav>
+
+    <!-- DM OVERLAY & PANEL -->
+    <div class="dm-overlay" id="dm-ov" onclick="toggleDM()"></div>
+    <div id="dm-panel">
+        <div class="dm-head">
+            <div class="dm-title">💬 Messages</div>
+            <button class="dm-new-btn" onclick="showNewDM()">New +</button>
+            <button class="dm-close" onclick="toggleDM()">✕</button>
+        </div>
+        <div id="dm-conv-list" class="dm-list"></div>
+        <div id="dm-chat" class="dm-chat-panel">
+            <div class="dm-chat-head">
+                <button class="dm-back" onclick="closeDMChat()">←</button>
+                <div class="av av-36" id="dm-chat-av"></div>
+                <div style="flex:1">
+                    <div id="dm-chat-name" style="font-weight:700;font-size:0.9rem"></div>
+                    <div style="font-size:0.72rem;color:var(--a5)">● Online</div>
+                </div>
+            </div>
+            <div class="dm-msgs" id="dm-msgs"></div>
+            <div class="dm-inp-row">
+                <input class="dm-inp" id="dm-inp" placeholder="Type a message…"
+                    onkeydown="if(event.key==='Enter')sendMsg()">
+                <button class="dm-send" onclick="sendMsg()">➤</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODALS -->
+    <div class="modal-bg" id="m-post">
+        <div class="modal-box">
+            <div class="modal-hd">
+                <h2 class="modal-title">✦ Create Post</h2>
+                <button class="modal-x" onclick="closeM('m-post')">✕</button>
+            </div>
+            <div class="fld"><label for="p-t">Title</label><input id="p-t" placeholder="Hook them with a great title…">
+            </div>
+            <div class="fld">
+                <label for="p-b">What's on your mind?</label>
+                <textarea id="p-b" placeholder="Share your thoughts, discoveries, questions…"></textarea>
+            </div>
+            <div class="fld"><label for="p-i">Image URL (optional)</label><input id="p-i" placeholder="https://…"></div>
+            <div class="fld">
+                <label>Pick a Tag</label>
+                <div style="display:flex;flex-wrap:wrap;gap:0.45rem;margin-top:0.3rem" id="tag-picker"></div>
+            </div>
+            <div class="modal-foot">
+                <button class="btn-sm btn-sm-ghost" onclick="closeM('m-post')">Cancel</button>
+                <button class="btn-sm btn-sm-grad" onclick="submitPost()">Pulse It ⚡</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-bg" id="m-poll">
+        <div class="modal-box">
+            <div class="modal-hd">
+                <h2 class="modal-title">📊 Create Poll</h2>
+                <button class="modal-x" onclick="closeM('m-poll')">✕</button>
+            </div>
+            <div class="fld"><label for="pol-q">Question</label><input id="pol-q"
+                    placeholder="Ask the community anything…"></div>
+            <div class="fld"><label for="pol-a">Option A</label><input id="pol-a" placeholder="First choice"></div>
+            <div class="fld"><label for="pol-b">Option B</label><input id="pol-b" placeholder="Second choice"></div>
+            <div class="modal-foot">
+                <button class="btn-sm btn-sm-ghost" onclick="closeM('m-poll')">Cancel</button>
+                <button class="btn-sm btn-sm-grad" onclick="submitPoll()">Launch Poll</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-bg" id="m-edit">
+        <div class="modal-box">
+            <div class="modal-hd">
+                <h2 class="modal-title">✏️ Edit Profile</h2>
+                <button class="modal-x" onclick="closeM('m-edit')">✕</button>
+            </div>
+            <div class="cover-picker" id="cover-picker" onclick="pickCover()">
+                <span>🖼️ Click to pick cover</span>
+            </div>
+            <div class="fld"><label for="ep-n">Display Name</label><input id="ep-n" placeholder="Your name"></div>
+            <div class="fld"><label for="ep-u">Username</label><input id="ep-u" placeholder="@handle"></div>
+            <div class="fld"><label for="ep-b">Bio</label><input id="ep-b" placeholder="Tell the world about you…">
+            </div>
+            <div class="modal-foot">
+                <button class="btn-sm btn-sm-ghost" onclick="closeM('m-edit')">Cancel</button>
+                <button class="btn-sm btn-sm-grad" onclick="saveProfile()">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div class="toast" id="toast"></div>
+
+    <!-- Scripts -->
+    <script src="app.js"></script>
+</body>
+
+</html>
